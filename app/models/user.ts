@@ -15,10 +15,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare id: number
 
   @column()
-  declare fullName: string | null
+  declare email: string
 
   @column()
-  declare email: string
+  declare active: boolean
 
   @column({ serializeAs: null })
   declare password: string
@@ -29,5 +29,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  static accessTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn: '7 days',
+  })
 }
