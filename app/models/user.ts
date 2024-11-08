@@ -10,12 +10,20 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   passwordColumnName: 'password',
 })
 
+export enum UserRole {
+  User = 'ROLE_USER',
+  Admin = 'ROLE_ADMIN',
+}
+
 export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
   declare email: string
+
+  @column()
+  declare role: UserRole
 
   @column()
   declare active: boolean
