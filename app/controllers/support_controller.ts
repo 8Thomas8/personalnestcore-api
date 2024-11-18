@@ -1,16 +1,21 @@
 import { HttpContext } from '@adonisjs/core/http'
 import { createSupportValidator, updateSupportValidator } from '#validators/support'
 import Support from '#models/support'
-import User, { UserRole } from '#models/user'
+import { UserRole } from '#models/user'
 
 export default class SupportController {
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
       const { message, status } = await request.validateUsing(createSupportValidator)
-      const { id: userId } = await auth.authenticate()
-      const user = await User.findOrFail(userId)
+      const { id: userId, role: userRole } = await auth.authenticate()
 
-      await Support.create({ message, status, userId: user.id })
+      if (userRole === UserRole.Admin) {
+        return response.unauthorized({
+          message: "You don't have permission to create a request",
+        })
+      }
+
+      await Support.create({ message, status, userId: userId })
 
       return response.created({
         message: 'Support request created successfully',
@@ -27,9 +32,9 @@ export default class SupportController {
     try {
       const support = await Support.findOrFail(params.id)
       const { status } = await request.validateUsing(updateSupportValidator)
-      const user = await auth.authenticate()
+      const {role: userRole} = await auth.authenticate()
 
-      if (user.role !== UserRole.Admin) {
+      if (userRole !== UserRole.Admin) {
         return response.unauthorized({
           message: "You don't have permission to update this support request",
         })
@@ -50,14 +55,14 @@ export default class SupportController {
 
   public readAll = async ({ auth, request, response }: HttpContext) => {
     try {
-      const user = await auth.authenticate()
+      const { id: userId, role: userRole } = await auth.authenticate()
 
-      if (user.role === UserRole.Admin) {
+      if (userRole === UserRole.Admin) {
         return response.ok(await Support.query().paginate(request.input('page', 1), 20))
       }
 
       return response.ok(
-        await Support.query().where('user_id', user.id).paginate(request.input('page', 1), 20)
+        await Support.query().where('user_id', userId).paginate(request.input('page', 1), 20)
       )
     } catch (error) {
       return response.badRequest({
@@ -69,10 +74,10 @@ export default class SupportController {
 
   public readOne = async ({ auth, params, response }: HttpContext) => {
     try {
-      const { id: userId } = await auth.authenticate()
+      const { id: userId, role: userRole } = await auth.authenticate()
       const support = await Support.findOrFail(params.id)
 
-      if (support.userId !== userId) {
+      if (userRole !== UserRole.Admin && support.userId !== userId) {
         return response.unauthorized({ message: "You don't own this data" })
       }
 
