@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine'
 import { passwordReg } from '../../types/constants.js'
 
-export const updateUserValidator = vine.withMetaData<{ userId: number }>().compile(
+export const registerUserValidator = vine.compile(
   vine.object({
     email: vine
       .string()
@@ -9,13 +9,16 @@ export const updateUserValidator = vine.withMetaData<{ userId: number }>().compi
       .email()
       .minLength(6)
       .unique(async (db, value, field) => {
-        const user = await db
-          .from('users')
-          .whereNot('id', field.meta.userId)
-          .where('email', value)
-          .first()
+        const user = await db.from('users').where(field.meta.email, value).first()
         return !user
       }),
     password: vine.string().trim().minLength(8).regex(passwordReg).escape(),
+  })
+)
+
+export const loginUserValidator = vine.compile(
+  vine.object({
+    email: vine.string().trim().email().minLength(6),
+    password: vine.string().trim().minLength(8),
   })
 )
