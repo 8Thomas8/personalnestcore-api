@@ -8,8 +8,8 @@ export const registerUserValidator = vine.compile(
       .trim()
       .email()
       .minLength(6)
-      .unique(async (db, value, field) => {
-        const user = await db.from('users').where(field.meta.email, value).first()
+      .unique(async (db, value) => {
+        const user = await db.from('users').where('email', value).first()
         return !user
       }),
     password: vine.string().trim().minLength(8).regex(passwordReg).escape(),
