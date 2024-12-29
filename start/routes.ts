@@ -12,6 +12,9 @@ import { middleware } from '#start/kernel'
 
 const UserController = () => import('#controllers/user_controller')
 const AuthController = () => import('#controllers/auth_controller')
+const DrugBrandController = () => import('#controllers/drug_brand_controller')
+const DrugNameController = () => import('#controllers/drug_name_controller')
+const UserDrugController = () => import('#controllers/user_drug_controller')
 
 router
   .group(() => {
@@ -23,6 +26,15 @@ router
         router.get('/me', [UserController, 'me']).use(middleware.auth())
         router
           .group(() => {
+            router.post('drug-brand', [DrugBrandController, 'create'])
+            router.get('drug-brand', [DrugBrandController, 'readAll'])
+            router.delete('drug-brand/:id', [DrugBrandController, 'delete'])
+            router.post('drug-name', [DrugNameController, 'create'])
+            router.get('drug-name', [DrugNameController, 'readAll'])
+            router.delete('drug-name/:id', [DrugNameController, 'delete'])
+            router.post('user-drug', [UserDrugController, 'create'])
+            router.get('user-drug', [UserDrugController, 'readAll'])
+            router.delete('user-drug/:id', [UserDrugController, 'delete'])
           })
           .use(middleware.auth())
       })
