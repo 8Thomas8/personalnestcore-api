@@ -21,6 +21,7 @@ export default class extends BaseSchema {
       table.text('form').notNullable()
       table.float('dose').notNullable()
       table.text('unit').notNullable()
+      table.text('note')
       table.timestamp('expiration_date_time')
       table.timestamp('created_at')
       table.timestamp('updated_at')
