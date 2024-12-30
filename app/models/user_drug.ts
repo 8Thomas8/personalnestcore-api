@@ -13,7 +13,7 @@ export default class UserDrug extends BaseModel {
   declare drugBrandId: number
 
   @belongsTo(() => DrugBrand)
-  declare drugBrand: BelongsToo<typeof DrugBrand>
+  declare drugBrand: BelongsTo<typeof DrugBrand>
 
   @column()
   declare drugNameId: number
