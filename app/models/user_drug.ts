@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import DrugBrand from '#models/drug_brand'
 import DrugName from '#models/drug_name'
 import { DrugForm, DrugUnit } from '../../types/constants.js'
@@ -25,7 +25,10 @@ export default class UserDrug extends BaseModel {
   declare form: DrugForm
 
   @column()
-  declare dose:  number
+  declare dose: number
+
+  @column()
+  declare note: string | null
 
   @column()
   declare unit: DrugUnit

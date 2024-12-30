@@ -8,7 +8,10 @@ export default class UserDrugController {
       await auth.authenticate()
 
       return response.ok(
-        await UserDrug.query().preload('drugBrand').preload('drugName').paginate(request.input('page', 1), 20)
+        await UserDrug.query()
+          .preload('drugBrand')
+          .preload('drugName')
+          .paginate(request.input('page', 1), 20)
       )
     } catch (error) {
       console.log(error)
@@ -21,10 +24,11 @@ export default class UserDrugController {
 
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
-      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime  } = await request.validateUsing(createUserDrugValidator)
+      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note } =
+        await request.validateUsing(createUserDrugValidator)
       await auth.authenticate()
 
-      await UserDrug.create({ drugBrandId, drugNameId, unit, form, dose, expirationDateTime })
+      await UserDrug.create({ drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note })
 
       return response.created({
         message: 'User drug created successfully',

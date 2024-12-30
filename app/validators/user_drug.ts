@@ -13,7 +13,7 @@ const transformDate = (value: string) => {
 
 export const createUserDrugValidator = vine.compile(
   vine.object({
-    drugBrandId:  vine.number().exists(async (db: Database, value: string) => {
+    drugBrandId: vine.number().exists(async (db: Database, value: string) => {
       return await db.from('drug_brands').where('id', value).first()
     }),
     drugNameId: vine.number().exists(async (db: Database, value: string) => {
@@ -22,13 +22,14 @@ export const createUserDrugValidator = vine.compile(
     form: vine.enum(DrugForm),
     dose: vine.number(),
     unit: vine.enum(DrugUnit),
-    expirationDateTime: vine.string().transform(transformDate)
+    expirationDateTime: vine.string().transform(transformDate),
+    note: vine.string().trim().maxLength(500).nullable(),
   })
 )
 
 export const updateUserDrugValidator = vine.compile(
   vine.object({
-    drugBrandId:  vine.number().exists(async (db: Database, value: string) => {
+    drugBrandId: vine.number().exists(async (db: Database, value: string) => {
       return await db.from('drug_brands').where('id', value).first()
     }),
     drugNameId: vine.number().exists(async (db: Database, value: string) => {
@@ -37,6 +38,7 @@ export const updateUserDrugValidator = vine.compile(
     form: vine.enum(DrugForm),
     dose: vine.number(),
     unit: vine.enum(DrugUnit),
-    expirationDateTime: vine.string().transform(transformDate)
+    expirationDateTime: vine.string().transform(transformDate),
+    note: vine.string().trim().maxLength(500).nullable(),
   })
 )
