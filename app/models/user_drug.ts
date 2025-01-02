@@ -36,6 +36,9 @@ export default class UserDrug extends BaseModel {
   @column.dateTime()
   declare expirationDateTime: DateTime
 
+  @column()
+  declare quantity: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

@@ -22,6 +22,7 @@ export default class extends BaseSchema {
       table.float('dose').notNullable()
       table.text('unit').notNullable()
       table.text('note').nullable()
+      table.integer('quantity').notNullable()
       table.timestamp('expiration_date_time')
       table.timestamp('created_at')
       table.timestamp('updated_at')
