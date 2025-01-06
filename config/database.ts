@@ -1,4 +1,5 @@
 import { defineConfig } from '@adonisjs/lucid'
+import env from '#start/env'
 
 const dbConfig = defineConfig({
   connection: 'sqlite',
@@ -6,7 +7,7 @@ const dbConfig = defineConfig({
     sqlite: {
       client: 'better-sqlite3',
       connection: {
-        filename: './database/db.sqlite3'
+        filename: env.get('SQLITE_PATH'),
       },
       useNullAsDefault: true,
       migrations: {
