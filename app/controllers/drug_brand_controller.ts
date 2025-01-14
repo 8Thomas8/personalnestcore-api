@@ -23,11 +23,8 @@ export default class DrugBrandController {
       const { name } = await request.validateUsing(createDrugBrandValidator)
       await auth.authenticate()
 
-      await DrugBrand.create({ name })
 
-      return response.created({
-        message: 'Drug brand created successfully',
-      })
+      return response.created( await DrugBrand.create({ name }))
     } catch (error) {
       return response.badRequest({
         message: 'Request failed',

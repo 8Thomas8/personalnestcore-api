@@ -1,14 +1,15 @@
 import { HttpContext } from '@adonisjs/core/http'
 import DrugName from '#models/drug_name'
-import { createDrugNameValidator } from '#validators/drug_name'
+import { createDrugNameValidator, readAllDrugNameByDrugBrandIdValidator } from '#validators/drug_name'
 
 export default class DrugNameController {
-  public readAll = async ({ auth,  response }: HttpContext) => {
+  public readAllByDrugBrandId = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
+      const { drugBrandId } = await request.validateUsing(readAllDrugNameByDrugBrandIdValidator)
 
       return response.ok(
-        await DrugName.query().preload('drugBrand')
+        await DrugName.query().where('drugBrandId', drugBrandId).preload('drugBrand')
       )
     } catch (error) {
       return response.badRequest({
@@ -20,10 +21,9 @@ export default class DrugNameController {
 
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
-      const { name, drugBrandId } = await request.validateUsing(createDrugNameValidator)
       await auth.authenticate()
-
-      await DrugName.create({ name, drugBrandId })
+      const { name, drugBrandId } = await request.validateUsing(createDrugNameValidator)
+     await DrugName.create({ name, drugBrandId })
 
       return response.created({
         message: 'Drug name created successfully',
