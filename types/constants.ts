@@ -69,3 +69,8 @@ export enum DrugForm {
   VaginalDrops = 'vaginal drops',
   VaginalSuspension = 'vaginal suspension'
 }
+
+export enum UserRole {
+  User = 'ROLE_USER',
+  Admin = 'ROLE_ADMIN',
+}
