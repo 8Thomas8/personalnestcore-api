@@ -23,7 +23,14 @@ router
         router.post('auth/register', [AuthController, 'register'])
         router.post('auth/login', [AuthController, 'login'])
         router.post('auth/logout', [AuthController, 'logout'])
-        router.get('/me', [UserController, 'me']).use(middleware.auth())
+        router.get('/me', [AuthController, 'me']).use(middleware.auth())
+        router.get('/admin-can-register', [AuthController, 'adminCanRegister'])
+        router.group(() => {
+          router.get('user', [UserController, 'readAll'])
+          router.post('user', [UserController, 'create'])
+          router.patch('user/:id', [UserController, 'update'])
+          router.delete('user/:id', [UserController, 'delete'])
+        })
         router
           .group(() => {
             router.post('drug-brand', [DrugBrandController, 'create'])
