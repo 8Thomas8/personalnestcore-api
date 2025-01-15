@@ -16,7 +16,6 @@ export default class AuthController {
     } catch (error) {
       return response.badRequest({
         message: 'Registration failed',
-        errors: error.messages,
       })
     }
   }

@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine'
 import { passwordReg } from '../../types/constants.js'
 
-export const updateUserValidator = vine.withMetaData<{ userId: number }>().compile(
+export const updateUserValidator = vine.withMetaData<{ userId: string }>().compile(
   vine.object({
     email: vine
       .string()
