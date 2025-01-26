@@ -4,17 +4,13 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, beforeCreate } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import crypto from 'crypto'
+import crypto from 'node:crypto'
+import { UserRole } from '../../types/constants.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
   passwordColumnName: 'password',
 })
-
-export enum UserRole {
-  User = 'ROLE_USER',
-  Admin = 'ROLE_ADMIN',
-}
 
 export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
