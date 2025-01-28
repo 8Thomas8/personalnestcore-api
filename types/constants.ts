@@ -17,7 +17,7 @@ export enum DrugUnit {
   Gal = 'gal',
   Tbsp = 'tbsp',
   Tsp = 'tsp',
-  Unit = 'unit'
+  Unit = 'unit',
 }
 
 export enum DrugForm {
@@ -67,7 +67,7 @@ export enum DrugForm {
   VaginalLozenge = 'vaginal lozenge',
   VaginalPatch = 'vaginal patch',
   VaginalDrops = 'vaginal drops',
-  VaginalSuspension = 'vaginal suspension'
+  VaginalSuspension = 'vaginal suspension',
 }
 
 export enum UserRole {

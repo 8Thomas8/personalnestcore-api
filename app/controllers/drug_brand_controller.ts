@@ -7,9 +7,7 @@ export default class DrugBrandController {
     try {
       await auth.authenticate()
 
-      return response.ok(
-        await DrugBrand.all()
-      )
+      return response.ok(await DrugBrand.all())
     } catch (error) {
       return response.badRequest({
         message: 'Request failed',
@@ -23,8 +21,7 @@ export default class DrugBrandController {
       const { name } = await request.validateUsing(createDrugBrandValidator)
       await auth.authenticate()
 
-
-      return response.created( await DrugBrand.create({ name }))
+      return response.created(await DrugBrand.create({ name }))
     } catch (error) {
       return response.badRequest({
         message: 'Request failed',
