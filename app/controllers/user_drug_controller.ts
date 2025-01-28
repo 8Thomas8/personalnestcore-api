@@ -1,14 +1,18 @@
 import { HttpContext } from '@adonisjs/core/http'
 import UserDrug from '#models/user_drug'
-import { createUserDrugValidator, updateUserDrugQuantityValidator, updateUserDrugValidator } from '#validators/user_drug'
+import {
+  createUserDrugValidator,
+  updateUserDrugQuantityValidator,
+  updateUserDrugValidator,
+} from '#validators/user_drug'
 import { DateTime } from 'luxon'
 
 export default class UserDrugController {
-  public readAll = async ({auth, request, response}: HttpContext) => {
+  public readAll = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
 
-      const {itemPerPage, terms, expiredOnly, expireSoon} = request.qs()
+      const { itemPerPage, terms, expiredOnly, expireSoon } = request.qs()
 
       const query = UserDrug.query().preload('drugBrand').preload('drugName')
 
@@ -29,7 +33,7 @@ export default class UserDrugController {
       }
 
       if (expireSoon === 'true') {
-        const soonDate = DateTime.now().plus({days: 60}).toISO()
+        const soonDate = DateTime.now().plus({ days: 60 }).toISO()
         query.whereBetween('expirationDateTime', [DateTime.now().toISO(), soonDate])
       }
 
@@ -43,9 +47,9 @@ export default class UserDrugController {
     }
   }
 
-  public create = async ({auth, request, response}: HttpContext) => {
+  public create = async ({ auth, request, response }: HttpContext) => {
     try {
-      const {drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity} =
+      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity } =
         await request.validateUsing(createUserDrugValidator)
       await auth.authenticate()
 
@@ -90,7 +94,7 @@ export default class UserDrugController {
     }
   }
 
-  public delete = async ({auth, request, response}: HttpContext) => {
+  public delete = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
       const userDrug = await UserDrug.findOrFail(request.param('id'))
@@ -108,12 +112,12 @@ export default class UserDrugController {
     }
   }
 
-  public update = async ({auth, request, response}: HttpContext) => {
+  public update = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
       const userDrug = await UserDrug.findOrFail(request.param('id'))
 
-      const {drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity} =
+      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity } =
         await request.validateUsing(updateUserDrugValidator)
 
       userDrug.merge({
@@ -141,13 +145,12 @@ export default class UserDrugController {
     }
   }
 
-  public updateQuantity = async ({auth, request, response}: HttpContext) => {
+  public updateQuantity = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
       const userDrug = await UserDrug.findOrFail(request.param('id'))
 
-      const { quantity} =
-        await request.validateUsing(updateUserDrugQuantityValidator)
+      const { quantity } = await request.validateUsing(updateUserDrugQuantityValidator)
 
       userDrug.quantity = quantity
 
