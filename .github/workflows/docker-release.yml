@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.DOCKER_EMAIL }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build the versioned Docker image
+      # Build the Docker image
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }} \
