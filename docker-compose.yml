@@ -2,7 +2,7 @@ version: "3.8"
 services:
   personalnestcore-api:
     container_name: personalnestcore-api
-    image: personalnestcore-api:latest
+    image: 8thomas8/personalnestcore-api:latest
     build:
       context: .
     environment:
