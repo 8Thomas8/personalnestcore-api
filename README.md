@@ -6,7 +6,7 @@
 To set up the PersonalNestCore API, follow these steps:
 
 1. Pull the latest image:
-```docker pull personalnestcore-api```
+```docker pull 8thomas8/personalnestcore-api```
 
 2. Start the services:
 ```docker-compose up -d --build```
@@ -19,7 +19,7 @@ When you need to update the application, follow these steps:
 1. Backup the database (just in case something goes wrong during the update):
    - Ensure your data is backed up from the persistent volume or database file.
 2. Pull the latest image:
-```docker pull personalnestcore-api```
+```docker pull 8thomas8/personalnestcore-api```
 3. Rebuild and restart the services:
 ```docker-compose up -d --build```
 This will pull the latest updates, rebuild the containers, and restart them.
