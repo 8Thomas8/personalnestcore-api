@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  personalnestcore-api:
+    container_name: personalnestcore-api
+    image: personalnestcore-api:latest
+    build:
+      context: .
+    environment:
+      - NODE_ENV=production
+      - TZ=UTC
+      - PORT=3333
+      - HOST=0.0.0.0
+      - LOG_LEVEL=info
+    networks:
+      - personalnestcore
+    volumes:
+      - ~/database:/app/data
+    entrypoint: [ "/app/entrypoint.sh" ]
+
+networks:
+  personalnestcore:
+    driver: bridge
