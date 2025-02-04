@@ -27,7 +27,14 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }} .
 
+      # Set Latest tag to the Docker image
+      - name: Set latest tag
+        run: |
+          docker tag ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
+
+
       # Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
