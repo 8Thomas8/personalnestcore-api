@@ -1,6 +1,5 @@
 import vine from '@vinejs/vine'
 import { DrugForm, DrugUnit } from '../../types/constants.js'
-import { Database } from '@adonisjs/lucid/database'
 import { DateTime } from 'luxon'
 
 const transformDate = (value: string) => {
@@ -13,10 +12,10 @@ const transformDate = (value: string) => {
 
 export const createUserDrugValidator = vine.compile(
   vine.object({
-    drugBrandId: vine.number().exists(async (db: Database, value: string) => {
+    drugBrandId: vine.number().exists(async (db, value) => {
       return await db.from('drug_brands').where('id', value).first()
     }),
-    drugNameId: vine.number().exists(async (db: Database, value: string) => {
+    drugNameId: vine.number().exists(async (db, value) => {
       return await db.from('drug_names').where('id', value).first()
     }),
     form: vine.enum(DrugForm),
@@ -30,10 +29,10 @@ export const createUserDrugValidator = vine.compile(
 
 export const updateUserDrugValidator = vine.compile(
   vine.object({
-    drugBrandId: vine.number().exists(async (db: Database, value: string) => {
+    drugBrandId: vine.number().exists(async (db , value) => {
       return await db.from('drug_brands').where('id', value).first()
     }),
-    drugNameId: vine.number().exists(async (db: Database, value: string) => {
+    drugNameId: vine.number().exists(async (db, value) => {
       return await db.from('drug_names').where('id', value).first()
     }),
     form: vine.enum(DrugForm),
