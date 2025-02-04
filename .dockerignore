@@ -1,0 +1,46 @@
+# 📁 Node.js
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# ⚙️ Environnements
+.env
+.env.*
+
+# 🔧 Build & Cache
+build
+.tmp
+.tsbuildinfo
+dist
+coverage
+
+# 🗄️ Logs
+*.log
+*.tmp
+
+# 🚀 Docker & CI/CD
+Dockerfile*
+docker-compose.yml
+docker-compose.override.yml
+.github
+
+# 🧪 Tests
+coverage
+.jest
+test-results
+
+# 🌍 IDE & System
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+*.swp
+
+# 🔒 Secrets
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
