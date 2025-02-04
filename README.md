@@ -5,11 +5,9 @@
 ### 1. Initial Setup
 To set up the PersonalNestCore API, follow these steps:
 
-1. Pull the latest image:
-```docker pull personalnestcore-api```
-
-2. Start the services:
-```docker-compose up -d --build```
+1. Create a folder and inside it a file named ```docker-compose.yml``` which contains the same content as the ```docker-compose.yml.example``` present in the project repository.
+2. In this folder, run: ```docker-compose pull```
+3. Start the services: In this folder, run ```docker-compose up -d --build```
 This will build the containers and start them in detached mode.
 ___
 
@@ -18,20 +16,16 @@ When you need to update the application, follow these steps:
 
 1. Backup the database (just in case something goes wrong during the update):
    - Ensure your data is backed up from the persistent volume or database file.
-2. Pull the latest image:
-```docker pull personalnestcore-api```
-3. Rebuild and restart the services:
-```docker-compose up -d --build```
-This will pull the latest updates, rebuild the containers, and restart them.
+2. Pull the latest image: In the folder, run: ```docker-compose pull```
+3. Restart the services: ```docker-compose up -d --build```
+This will rebuild the containers if necessary, and restart them.
 ___
 
 ### 3. Deletion Steps
 To remove the application and clean up your setup:
 
-1. Stop and remove containers:
-```docker-compose down```
-2. Remove all associated volumes (use carefully, as this will delete persistent data):
-```docker-compose down -v```
+1. Stop and remove containers: In the folder, run: ```docker-compose down```
+2. Remove all associated volumes (use carefully, as this will delete persistent data): ```docker-compose down -v```
 3. Optional: You may also want to remove the images and stop any running containers manually:
 ```
 docker ps -a
