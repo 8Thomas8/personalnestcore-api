@@ -25,4 +25,7 @@ yarn-error.log
 .DS_Store
 
 # Database
-*.sqlite
+sqlite.db
+
+#Docker
+docker-compose.yml
