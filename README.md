@@ -7,7 +7,7 @@ To set up the PersonalNestCore API, follow these steps:
 
 1. Create a folder and inside it a file named ```docker-compose.yml``` which contains the same content as the ```docker-compose.yml.example``` present in the project repository.
 2. In this folder, run: ```docker-compose pull```
-3. Start the services: In this folder, run ```docker-compose up -d --build```
+3. Start the services: In this folder, run ```docker-compose up -d```
 This will build the containers and start them in detached mode.
 ___
 
@@ -17,7 +17,7 @@ When you need to update the application, follow these steps:
 1. Backup the database (just in case something goes wrong during the update):
    - Ensure your data is backed up from the persistent volume or database file.
 2. Pull the latest image: In the folder, run: ```docker-compose pull```
-3. Restart the services: ```docker-compose up -d --build```
+3. Restart the services: ```docker-compose up -d```
 This will rebuild the containers if necessary, and restart them.
 ___
 
