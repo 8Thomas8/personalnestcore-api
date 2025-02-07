@@ -2,6 +2,8 @@
 
 export const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
+export const usernameReg = /^[a-zA-Z0-9_]{3,32}$/
+
 export enum DrugUnit {
   Mg = 'mg',
   G = 'g',
