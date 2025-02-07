@@ -18,6 +18,20 @@ services:
       - ~/database:/app/data
     entrypoint: [ "/app/entrypoint.sh" ]
 
+  personalnestcore-app:
+    container_name: personalnestcore-app
+    image: 8thomas8/personalnestcore-app:latest
+    build:
+      context: .
+    environment:
+      - NODE_ENV=production
+      - API_URL=http://personalnestcore-api:3333
+      - NUXT_PUBLIC_API_BASE=/api
+    networks:
+      - personalnestcore
+    ports:
+      - "3000:3000"
+
 networks:
   personalnestcore:
     driver: bridge
