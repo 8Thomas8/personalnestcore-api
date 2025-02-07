@@ -16,9 +16,10 @@ When you need to update the application, follow these steps:
 
 1. Backup the database (just in case something goes wrong during the update):
    - Ensure your data is backed up from the persistent volume or database file.
+2. Remove the old containers: ```docker-compose down -v```
 2. Pull the latest image: In the folder, run: ```docker-compose pull```
 3. Restart the services: ```docker-compose up -d```
-This will rebuild the containers if necessary, and restart them.
+This will restart the container with the last version.
 ___
 
 ### 3. Deletion Steps
