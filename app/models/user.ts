@@ -8,7 +8,7 @@ import crypto from 'node:crypto'
 import { UserRole } from '../../types/constants.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
-  uids: ['email'],
+  uids: ['username'],
   passwordColumnName: 'password',
 })
 
@@ -17,7 +17,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare id: string
 
   @column()
-  declare email: string
+  declare username: string
 
   @column()
   declare role: UserRole

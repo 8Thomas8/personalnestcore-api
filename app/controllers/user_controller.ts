@@ -22,9 +22,9 @@ export default class UserController {
         })
       }
 
-      const { email, password } = await request.validateUsing(createUserValidator)
+      const { username, password } = await request.validateUsing(createUserValidator)
 
-      await User.create({ email, password })
+      await User.create({ username, password })
 
       return response.created({
         message: 'New user created successfully',
@@ -40,7 +40,7 @@ export default class UserController {
     try {
       const { id } = await auth.authenticate()
 
-      const { email, password } = await request.validateUsing(updateUserValidator)
+      const { username, password } = await request.validateUsing(updateUserValidator)
 
       const user = await User.findOrFail(request.param('id'))
 
@@ -50,7 +50,7 @@ export default class UserController {
         })
       }
 
-      user.merge({ email, password })
+      user.merge({ username, password })
 
       await user.save()
 

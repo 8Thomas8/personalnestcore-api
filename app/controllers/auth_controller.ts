@@ -6,7 +6,7 @@ import { UserRole } from '../../types/constants.js'
 export default class AuthController {
   public register = async ({ request, response }: HttpContext) => {
     try {
-      const { email, password }: { email: string; password: string } =
+      const { username, password }: { username: string; password: string } =
         await request.validateUsing(registerUserValidator)
 
       const users = await User.query()
@@ -17,7 +17,7 @@ export default class AuthController {
         })
       }
 
-      await User.create({ email, password, role: UserRole.Admin })
+      await User.create({ username, password, role: UserRole.Admin })
 
       return response.created({
         message: 'User created successfully',
@@ -30,10 +30,10 @@ export default class AuthController {
   }
 
   login = async ({ request, response }: HttpContext) => {
-    const { email, password }: { email: string; password: string } =
+    const { username, password }: { username: string; password: string } =
       await request.validateUsing(loginUserValidator)
 
-    const user = await User.verifyCredentials(email, password)
+    const user = await User.verifyCredentials(username, password)
 
     const token = await User.accessTokens.create(user)
 

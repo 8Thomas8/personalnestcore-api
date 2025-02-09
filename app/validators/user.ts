@@ -1,42 +1,37 @@
 import vine from '@vinejs/vine'
-import { passwordReg } from '../../types/constants.js'
-import { Database } from '@adonisjs/lucid/database'
+import { passwordReg, usernameReg } from '../../types/constants.js'
 
 export const createUserValidator = vine.compile(
   vine.object({
-    email: vine
+    username: vine
       .string()
       .trim()
-      .email()
-      .minLength(6)
+      .minLength(3)
+      .maxLength(32)
       .unique(async (db, value) => {
-        const user = await db.from('users').where('email', value).first()
+        const user = await db.from('users').where('username', value).first()
         return !user
-      }),
+      })
+      .regex(usernameReg)
+      .escape(),
     password: vine.string().trim().minLength(8).regex(passwordReg).escape(),
   })
 )
 
 export const updateUserValidator = vine.compile(
   vine.object({
-    email: vine
+    username: vine
       .string()
       .trim()
-      .email()
-      .minLength(6)
+      .minLength(3)
+      .maxLength(32)
       .unique(async (db, value) => {
-        const user = await db.from('users').where('email', value).first()
+        const user = await db.from('users').where('username', value).first()
         return !user
       })
+      .regex(usernameReg)
+      .escape()
       .optional(),
     password: vine.string().trim().minLength(8).regex(passwordReg).escape().optional(),
-  })
-)
-
-export const deleteUserValidator = vine.compile(
-  vine.object({
-    id: vine.string().exists(async (db: Database, value: string) => {
-      return await db.from('users').where('id', value).first()
-    }),
   })
 )
