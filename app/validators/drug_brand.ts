@@ -9,7 +9,6 @@ export const createDrugBrandValidator = vine.compile(
       .unique(async (db, value) => {
         const brand = await db.from('drug_brands').where('name', value).first()
         return !brand
-      })
-      .escape(),
+      }),
   })
 )
