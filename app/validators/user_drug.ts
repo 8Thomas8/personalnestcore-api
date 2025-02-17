@@ -22,7 +22,7 @@ export const createUserDrugValidator = vine.compile(
     dose: vine.number().optional(),
     unit: vine.enum(DrugUnit).optional(),
     expirationDateTime: vine.string().transform(transformDate),
-    note: vine.string().trim().maxLength(500).escape().nullable().optional(),
+    note: vine.string().trim().maxLength(500).nullable().optional(),
     quantity: vine.number().min(1),
   })
 )
@@ -39,7 +39,7 @@ export const updateUserDrugValidator = vine.compile(
     dose: vine.number().optional(),
     unit: vine.enum(DrugUnit).optional(),
     expirationDateTime: vine.string().transform(transformDate),
-    note: vine.string().trim().maxLength(500).escape().nullable().optional(),
+    note: vine.string().trim().maxLength(500).nullable().optional(),
     quantity: vine.number().min(1),
   })
 )
