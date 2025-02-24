@@ -25,13 +25,13 @@ export default class UserDrug extends BaseModel {
   declare form: DrugForm
 
   @column()
-  declare dose: number
+  declare dose: number | null
 
   @column()
   declare note: string | null
 
   @column()
-  declare unit: DrugUnit
+  declare unit: DrugUnit | null
 
   @column.dateTime()
   declare expirationDateTime: DateTime

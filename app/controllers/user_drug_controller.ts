@@ -130,9 +130,9 @@ export default class UserDrugController {
       userDrug.merge({
         drugBrandId,
         drugNameId,
-        unit,
+        unit: unit ?? null,
         form,
-        dose,
+        dose: dose ?? null,
         expirationDateTime,
         note,
         quantity,
