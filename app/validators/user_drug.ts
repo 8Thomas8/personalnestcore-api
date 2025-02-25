@@ -19,8 +19,8 @@ export const createUserDrugValidator = vine.compile(
       return await db.from('drug_names').where('id', value).first()
     }),
     form: vine.enum(DrugForm),
-    dose: vine.number().optional(),
-    unit: vine.enum(DrugUnit).optional(),
+    dose: vine.number().nullable().optional().requiredIfExists('unit'),
+    unit: vine.enum(DrugUnit).nullable().optional().requiredIfExists('dose'),
     expirationDateTime: vine.string().transform(transformDate),
     note: vine.string().trim().maxLength(500).nullable().optional(),
     quantity: vine.number().min(1),
@@ -36,8 +36,8 @@ export const updateUserDrugValidator = vine.compile(
       return await db.from('drug_names').where('id', value).first()
     }),
     form: vine.enum(DrugForm),
-    dose: vine.number().optional(),
-    unit: vine.enum(DrugUnit).optional(),
+    dose: vine.number().nullable().optional().requiredIfExists('unit'),
+    unit: vine.enum(DrugUnit).nullable().optional().requiredIfExists('dose'),
     expirationDateTime: vine.string().transform(transformDate),
     note: vine.string().trim().maxLength(500).nullable().optional(),
     quantity: vine.number().min(1),

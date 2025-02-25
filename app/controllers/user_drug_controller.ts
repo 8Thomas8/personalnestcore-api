@@ -53,20 +53,15 @@ export default class UserDrugController {
         await request.validateUsing(createUserDrugValidator)
       await auth.authenticate()
 
-      const query = UserDrug.query()
+      const matchingUserDrugs: UserDrug[] = await UserDrug.query()
         .where('drugBrandId', drugBrandId)
         .andWhere('drugNameId', drugNameId)
+        // @ts-ignore-next-line
+        .andWhere('unit', unit)
         .andWhere('form', form)
-
-      if (unit !== undefined && unit !== null) {
-        query.andWhere('unit', unit)
-      }
-
-      if (dose !== undefined && dose !== null) {
-        query.andWhere('dose', dose)
-      }
-
-      const matchingUserDrugs: UserDrug[] = await query.exec()
+        // @ts-ignore-next-line
+        .andWhere('dose', dose)
+        .exec()
 
       const existingUserDrug = matchingUserDrugs?.some((userDrug) => {
         return userDrug.expirationDateTime.toISO() === expirationDateTime.toISO()
@@ -130,9 +125,9 @@ export default class UserDrugController {
       userDrug.merge({
         drugBrandId,
         drugNameId,
-        unit: unit ?? null,
+        unit: unit,
         form,
-        dose: dose ?? null,
+        dose: dose,
         expirationDateTime,
         note,
         quantity,
