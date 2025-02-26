@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import sanitizeHtml from 'sanitize-html'
 
-export default class SanitizeInput {
+export default class SanitizeInputMiddleware {
   public async handle({ request }: HttpContext, next: () => Promise<void>) {
     if (!['POST', 'PUT', 'PATCH'].includes(request.method())) {
       return await next()
