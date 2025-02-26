@@ -25,9 +25,9 @@ export const updateUserValidator = vine.compile(
       .trim()
       .minLength(3)
       .maxLength(32)
-      .unique(async (db, value) => {
+      .unique(async (db, value, currentUser) => {
         const user = await db.from('users').where('username', value).first()
-        return !user
+        return !user || !(user?.username !== currentUser.data.username)
       })
       .regex(usernameReg)
       .escape()
