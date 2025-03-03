@@ -25,12 +25,6 @@ router
         router.post('auth/logout', [AuthController, 'logout'])
         router.get('/me', [AuthController, 'me']).use(middleware.auth())
         router.get('/admin-can-register', [AuthController, 'adminCanRegister'])
-        router.group(() => {
-          router.get('user', [UserController, 'readAll'])
-          router.post('user', [UserController, 'create'])
-          router.patch('user/:id', [UserController, 'update'])
-          router.delete('user/:id', [UserController, 'delete'])
-        })
         router
           .group(() => {
             router.post('drug-brand', [DrugBrandController, 'create'])
@@ -44,6 +38,10 @@ router
             router.delete('user-drug/:id', [UserDrugController, 'delete'])
             router.put('user-drug/:id', [UserDrugController, 'update'])
             router.patch('user-drug/:id/quantity', [UserDrugController, 'updateQuantity'])
+            router.get('user', [UserController, 'readAll'])
+            router.post('user', [UserController, 'create'])
+            router.patch('user/:id', [UserController, 'update'])
+            router.delete('user/:id', [UserController, 'delete'])
           })
           .use(middleware.auth())
       })
