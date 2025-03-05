@@ -34,6 +34,7 @@ jobs:
 
       # Set Latest tag to the Docker image
       - name: Set latest tag
+        if: github.event.release.tag_name == 'latest'
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
 
