@@ -15,11 +15,13 @@ const AuthController = () => import('#controllers/auth_controller')
 const DrugBrandController = () => import('#controllers/drug_brand_controller')
 const DrugNameController = () => import('#controllers/drug_name_controller')
 const UserDrugController = () => import('#controllers/user_drug_controller')
+const AppController = () => import('#controllers/app_controller')
 
 router
   .group(() => {
     router
       .group(() => {
+        router.get('app/version', [AppController, 'getVersion'])
         router.post('auth/register', [AuthController, 'register'])
         router.post('auth/login', [AuthController, 'login'])
         router.post('auth/logout', [AuthController, 'logout'])
