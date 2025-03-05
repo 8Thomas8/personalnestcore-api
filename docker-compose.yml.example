@@ -28,7 +28,8 @@ services:
       - API_URL=http://personalnestcore-api:3333
       - NUXT_PUBLIC_API_BASE=/api
       - NUXT_PUBLIC_GITHUB_PROJECT_OWNER=8Thomas8
-      - NUXT_PUBLIC_GITHUB_PROJECT_REPO=personalnestcore-app
+      - NUXT_PUBLIC_GITHUB_PROJECT_APP_REPO=personalnestcore-app
+      - NUXT_PUBLIC_GITHUB_PROJECT_API_REPO=personalnestcore-api
       - NUXT_PUBLIC_NOTIFY_DEV_VERSION=false
     networks:
       - personalnestcore
