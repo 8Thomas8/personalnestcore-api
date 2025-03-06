@@ -42,4 +42,6 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
+          if [ "${{ github.event.release.tag_name == 'latest' }}" = "latest" ]; then
+            docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-app:latesti
+          fi
