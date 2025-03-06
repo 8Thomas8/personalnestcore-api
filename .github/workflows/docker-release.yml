@@ -38,10 +38,13 @@ jobs:
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
 
-      # Push Docker image to Docker Hub
-      - name: Push Docker image to Docker Hub
+      # Push Docker image with version tag to Docker Hub
+      - name: Push Docker image with version tag to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:${{ github.ref_name }}
-          if [ "${{ github.event.release.tag_name }}" = "latest" ]; then
-            docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
-          fi
+
+      # Push Docker image with latest tag to Docker Hub
+      - name: Push Docker image with latest tag to Docker Hub
+        if: github.event.release.tag_name == 'latest'
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/personalnestcore-api:latest
