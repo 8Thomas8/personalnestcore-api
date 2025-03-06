@@ -5,9 +5,17 @@
 ### 1. Initial Setup
 To set up the PersonalNestCore API, follow these steps:
 
+<<<<<<< Updated upstream
 1. Create a folder and inside it a file named ```docker-compose.yml``` which contains the same content as the ```docker-compose.yml.example``` present in the project repository.
 2. In this folder, run: ```docker-compose pull```
 3. Start the services: In this folder, run ```docker-compose up -d```
+=======
+1. Pull the latest image:
+docker pull 8thomas8/personalnestcore-api
+
+2. Start the services:
+```docker-compose up -d --build```
+>>>>>>> Stashed changes
 This will build the containers and start them in detached mode.
 ___
 
@@ -16,10 +24,18 @@ When you need to update the application, follow these steps:
 
 1. Backup the database (just in case something goes wrong during the update):
    - Ensure your data is backed up from the persistent volume or database file.
+<<<<<<< Updated upstream
 2. Remove the old containers: ```docker-compose down -v```
 2. Pull the latest image: In the folder, run: ```docker-compose pull```
 3. Restart the services: ```docker-compose up -d```
 This will restart the container with the last version.
+=======
+2. Pull the latest image:
+```docker pull 8thomas8/personalnestcore-api```
+3. Rebuild and restart the services:
+```docker-compose up -d --build```
+This will pull the latest updates, rebuild the containers, and restart them.
+>>>>>>> Stashed changes
 ___
 
 ### 3. Deletion Steps
