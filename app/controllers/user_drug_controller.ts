@@ -14,7 +14,10 @@ export default class UserDrugController {
 
       const { itemPerPage, terms, expiredOnly, expireSoon } = request.qs()
 
-      const query = UserDrug.query().preload('drugBrand').preload('drugName')
+      const query = UserDrug.query()
+        .preload('drugBrand')
+        .preload('drugName')
+        .preload('drugContainer')
 
       if (terms) {
         query
@@ -49,8 +52,17 @@ export default class UserDrugController {
 
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
-      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity } =
-        await request.validateUsing(createUserDrugValidator)
+      const {
+        drugBrandId,
+        drugContainerId,
+        drugNameId,
+        unit,
+        form,
+        dose,
+        expirationDateTime,
+        note,
+        quantity,
+      } = await request.validateUsing(createUserDrugValidator)
       await auth.authenticate()
 
       const matchingUserDrugs: UserDrug[] = await UserDrug.query()
@@ -61,6 +73,7 @@ export default class UserDrugController {
         .andWhere('form', form)
         // @ts-ignore-next-line
         .andWhere('dose', dose)
+        .andWhere('drugContainerId', drugContainerId)
         .exec()
 
       const existingUserDrug = matchingUserDrugs?.some((userDrug) => {
@@ -75,6 +88,7 @@ export default class UserDrugController {
 
       await UserDrug.create({
         drugBrandId,
+        drugContainerId,
         drugNameId,
         unit,
         form,
