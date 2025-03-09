@@ -15,6 +15,9 @@ export const createUserDrugValidator = vine.compile(
     drugBrandId: vine.number().exists(async (db, value) => {
       return await db.from('drug_brands').where('id', value).first()
     }),
+    drugContainerId: vine.number().exists(async (db, value) => {
+      return await db.from('drug_containers').where('id', value).first()
+    }),
     drugNameId: vine.number().exists(async (db, value) => {
       return await db.from('drug_names').where('id', value).first()
     }),
@@ -31,6 +34,9 @@ export const updateUserDrugValidator = vine.compile(
   vine.object({
     drugBrandId: vine.number().exists(async (db, value) => {
       return await db.from('drug_brands').where('id', value).first()
+    }),
+    drugContainerId: vine.number().exists(async (db, value) => {
+      return await db.from('drug_containers').where('id', value).first()
     }),
     drugNameId: vine.number().exists(async (db, value) => {
       return await db.from('drug_names').where('id', value).first()
