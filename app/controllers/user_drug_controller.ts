@@ -27,6 +27,9 @@ export default class UserDrugController {
           .orWhereHas('drugName', (nameQuery) => {
             nameQuery.where('name', 'like', `%${terms}%`)
           })
+          .orWhereHas('drugContainer', (nameQuery) => {
+            nameQuery.where('name', 'like', `%${terms}%`)
+          })
           .orWhere('dose', 'like', `%${terms}%`)
           .orWhere('form', 'like', `%${terms}%`)
       }
@@ -133,12 +136,22 @@ export default class UserDrugController {
       await auth.authenticate()
       const userDrug = await UserDrug.findOrFail(request.param('id'))
 
-      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity } =
-        await request.validateUsing(updateUserDrugValidator)
+      const {
+        drugBrandId,
+        drugNameId,
+        drugContainerId,
+        unit,
+        form,
+        dose,
+        expirationDateTime,
+        note,
+        quantity,
+      } = await request.validateUsing(updateUserDrugValidator)
 
       userDrug.merge({
         drugBrandId,
         drugNameId,
+        drugContainerId,
         unit: unit,
         form,
         dose: dose,
