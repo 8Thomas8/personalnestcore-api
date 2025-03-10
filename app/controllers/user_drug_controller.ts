@@ -14,7 +14,10 @@ export default class UserDrugController {
 
       const { itemPerPage, terms, expiredOnly, expireSoon } = request.qs()
 
-      const query = UserDrug.query().preload('drugBrand').preload('drugName')
+      const query = UserDrug.query()
+        .preload('drugBrand')
+        .preload('drugName')
+        .preload('drugContainer')
 
       if (terms) {
         query
@@ -22,6 +25,9 @@ export default class UserDrugController {
             brandQuery.where('name', 'like', `%${terms}%`)
           })
           .orWhereHas('drugName', (nameQuery) => {
+            nameQuery.where('name', 'like', `%${terms}%`)
+          })
+          .orWhereHas('drugContainer', (nameQuery) => {
             nameQuery.where('name', 'like', `%${terms}%`)
           })
           .orWhere('dose', 'like', `%${terms}%`)
@@ -49,8 +55,17 @@ export default class UserDrugController {
 
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
-      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity } =
-        await request.validateUsing(createUserDrugValidator)
+      const {
+        drugBrandId,
+        drugContainerId,
+        drugNameId,
+        unit,
+        form,
+        dose,
+        expirationDateTime,
+        note,
+        quantity,
+      } = await request.validateUsing(createUserDrugValidator)
       await auth.authenticate()
 
       const matchingUserDrugs: UserDrug[] = await UserDrug.query()
@@ -61,6 +76,7 @@ export default class UserDrugController {
         .andWhere('form', form)
         // @ts-ignore-next-line
         .andWhere('dose', dose)
+        .andWhere('drugContainerId', drugContainerId)
         .exec()
 
       const existingUserDrug = matchingUserDrugs?.some((userDrug) => {
@@ -75,6 +91,7 @@ export default class UserDrugController {
 
       await UserDrug.create({
         drugBrandId,
+        drugContainerId,
         drugNameId,
         unit,
         form,
@@ -119,12 +136,22 @@ export default class UserDrugController {
       await auth.authenticate()
       const userDrug = await UserDrug.findOrFail(request.param('id'))
 
-      const { drugBrandId, drugNameId, unit, form, dose, expirationDateTime, note, quantity } =
-        await request.validateUsing(updateUserDrugValidator)
+      const {
+        drugBrandId,
+        drugNameId,
+        drugContainerId,
+        unit,
+        form,
+        dose,
+        expirationDateTime,
+        note,
+        quantity,
+      } = await request.validateUsing(updateUserDrugValidator)
 
       userDrug.merge({
         drugBrandId,
         drugNameId,
+        drugContainerId,
         unit: unit,
         form,
         dose: dose,

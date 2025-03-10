@@ -16,6 +16,7 @@ const DrugBrandController = () => import('#controllers/drug_brand_controller')
 const DrugNameController = () => import('#controllers/drug_name_controller')
 const UserDrugController = () => import('#controllers/user_drug_controller')
 const AppController = () => import('#controllers/app_controller')
+const DrugContainerController = () => import('#controllers/drug_container_controller')
 
 router
   .group(() => {
@@ -40,6 +41,9 @@ router
             router.delete('user-drug/:id', [UserDrugController, 'delete'])
             router.put('user-drug/:id', [UserDrugController, 'update'])
             router.patch('user-drug/:id/quantity', [UserDrugController, 'updateQuantity'])
+            router.post('drug-container', [DrugContainerController, 'create'])
+            router.get('drug-container', [DrugContainerController, 'readAll'])
+            router.delete('drug-container/:id', [DrugContainerController, 'delete'])
             router.get('user', [UserController, 'readAll'])
             router.post('user', [UserController, 'create'])
             router.patch('user/:id', [UserController, 'update'])

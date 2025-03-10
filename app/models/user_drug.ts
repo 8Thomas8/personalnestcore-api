@@ -4,6 +4,7 @@ import DrugBrand from '#models/drug_brand'
 import DrugName from '#models/drug_name'
 import { DrugForm, DrugUnit } from '../../types/constants.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import DrugContainer from '#models/drug_container'
 
 export default class UserDrug extends BaseModel {
   @column({ isPrimary: true })
@@ -20,6 +21,12 @@ export default class UserDrug extends BaseModel {
 
   @belongsTo(() => DrugName)
   declare drugName: BelongsTo<typeof DrugName>
+
+  @column()
+  declare drugContainerId: number
+
+  @belongsTo(() => DrugContainer)
+  declare drugContainer: BelongsTo<typeof DrugContainer>
 
   @column()
   declare form: DrugForm
