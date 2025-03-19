@@ -3,7 +3,7 @@ import DrugName from '#models/drug_name'
 import {
   createDrugNameValidator,
   readAllDrugNameByDrugBrandIdValidator,
-} from '#validators/drug_name'
+} from '#validators/pharmacy/drug_name'
 
 export default class DrugNameController {
   public readAllByDrugBrandId = async ({ auth, request, response }: HttpContext) => {

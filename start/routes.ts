@@ -12,11 +12,11 @@ import { middleware } from '#start/kernel'
 
 const UserController = () => import('#controllers/user_controller')
 const AuthController = () => import('#controllers/auth_controller')
-const DrugBrandController = () => import('#controllers/drug_brand_controller')
-const DrugNameController = () => import('#controllers/drug_name_controller')
-const UserDrugController = () => import('#controllers/user_drug_controller')
+const DrugBrandController = () => import('#controllers/pharmacy/drug_brand_controller')
+const DrugNameController = () => import('#controllers/pharmacy/drug_name_controller')
+const UserDrugController = () => import('#controllers/pharmacy/user_drug_controller')
 const AppController = () => import('#controllers/app_controller')
-const DrugContainerController = () => import('#controllers/drug_container_controller')
+const DrugContainerController = () => import('#controllers/pharmacy/drug_container_controller')
 
 router
   .group(() => {
