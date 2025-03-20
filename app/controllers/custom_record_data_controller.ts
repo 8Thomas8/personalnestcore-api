@@ -36,8 +36,8 @@ export default class CustomRecordDataController {
         })
       }
 
-      query.whereBetween('dateTime', [isoStartDate, isoEndDate])
-
+      query.whereBetween('datetime', [isoStartDate, isoEndDate])
+      
       return response.ok(await query.paginate(request.input('page', 1), itemPerPage ?? 20))
     } catch (error) {
       return response.badRequest({
