@@ -62,8 +62,6 @@ export default class CustomRecordDataController {
 
       const { content, datetime } = await request.validateUsing(createCustomRecordDataValidator)
 
-      console.log(await request.validateUsing(createCustomRecordDataValidator))
-
       return response.created(await CustomRecordData.create({ content, datetime, customRecordId }))
     } catch (error) {
       return response.badRequest({
