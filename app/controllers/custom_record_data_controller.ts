@@ -1,5 +1,8 @@
 import { HttpContext } from '@adonisjs/core/http'
-import { createCustomRecordDataValidator } from '#validators/custom-records/custom_record_data'
+import {
+  createCustomRecordDataValidator,
+  updateCustomRecordDataValidator,
+} from '#validators/custom-records/custom_record_data'
 import CustomRecordData from '#models/custom_record_data'
 import { DateTime } from 'luxon'
 import CustomRecord from '#models/custom_record'
@@ -75,7 +78,7 @@ export default class CustomRecordDataController {
     try {
       await auth.authenticate()
       const record = await CustomRecordData.findOrFail(request.param('id'))
-      const { content, datetime } = await request.validateUsing(createCustomRecordDataValidator)
+      const { content, datetime } = await request.validateUsing(updateCustomRecordDataValidator)
 
       record.merge({ content, datetime })
 
