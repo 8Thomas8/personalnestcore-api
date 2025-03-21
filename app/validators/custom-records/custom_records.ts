@@ -6,7 +6,8 @@ export const createCustomRecordValidator = vine.compile(
     name: vine
       .string()
       .trim()
-      .minLength(2)
+      .minLength(4)
+      .maxLength(15)
       .unique(async (db, value) => {
         const brand = await db.from('custom_records').where('name', value).first()
         return !brand
@@ -20,7 +21,8 @@ export const updateCustomRecordValidator = vine.compile(
     name: vine
       .string()
       .trim()
-      .minLength(2)
+      .minLength(4)
+      .maxLength(15)
       .unique(async (db, value) => {
         const brand = await db.from('custom_records').where('name', value).first()
         return !brand
