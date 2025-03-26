@@ -17,7 +17,8 @@ const DrugNameController = () => import('#controllers/drug_name_controller')
 const UserDrugController = () => import('#controllers/user_drug_controller')
 const AppController = () => import('#controllers/app_controller')
 const DrugContainerController = () => import('#controllers/drug_container_controller')
-
+const CustomRecordController = () => import('#controllers/custom_record_controller')
+const CustomRecordDataController = () => import('#controllers/custom_record_data_controller')
 router
   .group(() => {
     router
@@ -48,6 +49,27 @@ router
             router.post('user', [UserController, 'create'])
             router.patch('user/:id', [UserController, 'update'])
             router.delete('user/:id', [UserController, 'delete'])
+            router.post('custom-record', [CustomRecordController, 'create'])
+            router.get('custom-record', [CustomRecordController, 'readAll'])
+            router.get('custom-record/:id', [CustomRecordController, 'readOne'])
+            router.put('custom-record/:id', [CustomRecordController, 'update'])
+            router.delete('custom-record/:id', [CustomRecordController, 'delete'])
+            router.get('custom-record/:custom-record-id/data', [
+              CustomRecordDataController,
+              'readAllByCustomRecordId',
+            ])
+            router.post('custom-record/:custom-record-id/data', [
+              CustomRecordDataController,
+              'create',
+            ])
+            router.put('custom-record/:custom-record-id/data/:id', [
+              CustomRecordDataController,
+              'update',
+            ])
+            router.delete('custom-record/:custom-record-id/data/:id', [
+              CustomRecordDataController,
+              'delete',
+            ])
           })
           .use(middleware.auth())
       })

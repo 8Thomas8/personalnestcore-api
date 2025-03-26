@@ -76,3 +76,7 @@ export enum UserRole {
   User = 'ROLE_USER',
   Admin = 'ROLE_ADMIN',
 }
+
+export enum CustomRecordView {
+  Calendar = 'CALENDAR',
+}
