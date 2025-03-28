@@ -51,7 +51,9 @@ export default class CustomRecordController {
     try {
       await auth.authenticate()
       const record = await CustomRecord.findOrFail(request.param('id'))
-      const { name, view } = await request.validateUsing(updateCustomRecordValidator)
+      const { name, view } = await request.validateUsing(
+        updateCustomRecordValidator(request.param('id'))
+      )
 
       record.merge({ name, view })
 
