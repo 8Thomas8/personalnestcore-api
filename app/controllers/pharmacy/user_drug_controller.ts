@@ -4,7 +4,7 @@ import {
   createUserDrugValidator,
   updateUserDrugQuantityValidator,
   updateUserDrugValidator,
-} from '#validators/user_drug'
+} from '#validators/pharmacy/user_drug'
 import { DateTime } from 'luxon'
 
 export default class UserDrugController {
