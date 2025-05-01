@@ -20,6 +20,9 @@ const DrugContainerController = () => import('#controllers/pharmacy/drug_contain
 const CustomRecordController = () => import('#controllers/custom-records/custom_record_controller')
 const CustomRecordDataController = () =>
   import('#controllers/custom-records/custom_record_data_controller')
+const WaterConsumptionRecordController = () =>
+  import('#controllers/water-consumption/water_consumption_controller')
+
 router
   .group(() => {
     router
@@ -71,6 +74,13 @@ router
               CustomRecordDataController,
               'delete',
             ])
+            router.get('water-consumption-record', [WaterConsumptionRecordController, 'readAll'])
+            router.post('water-consumption-record', [WaterConsumptionRecordController, 'create'])
+            router.delete('water-consumption-record/:id', [
+              WaterConsumptionRecordController,
+              'delete',
+            ])
+            router.put('water-consumption-record/:id', [WaterConsumptionRecordController, 'update'])
           })
           .use(middleware.auth())
       })

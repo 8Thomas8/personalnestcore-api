@@ -1,14 +1,14 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
-export default class WaterUsageRecord extends BaseModel {
+export default class WaterConsumptionRecord extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
   declare index: number
 
-  @column()
+  @column.dateTime()
   declare date: DateTime
 
   @column()
