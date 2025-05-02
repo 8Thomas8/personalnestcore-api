@@ -23,7 +23,6 @@ export const updateWaterConsumptionRecordValidator = vine.compile(
       if (!date.isValid) {
         throw new Error('Invalid date format')
       }
-      console.log(date)
       return date
     }),
     comment: vine.string().trim().maxLength(500),

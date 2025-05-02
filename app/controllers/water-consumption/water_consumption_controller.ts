@@ -52,7 +52,7 @@ export default class WaterConsumptionController {
       return response.created(await WaterConsumptionRecord.create({ index, date, comment }))
     } catch (error) {
       return response.badRequest({
-        message: 'Water consumption record cannnot be created',
+        message: 'Water consumption record cannot be created',
         errors: error.messages,
       })
     }
