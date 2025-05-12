@@ -11,7 +11,7 @@ export const createWaterConsumptionRecordValidator = vine.compile(
       }
       return date
     }),
-    comment: vine.string().trim().maxLength(500),
+    comment: vine.string().trim().maxLength(500).optional().nullable(),
   })
 )
 
