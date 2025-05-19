@@ -12,13 +12,17 @@ import { middleware } from '#start/kernel'
 
 const UserController = () => import('#controllers/user_controller')
 const AuthController = () => import('#controllers/auth_controller')
-const DrugBrandController = () => import('#controllers/drug_brand_controller')
-const DrugNameController = () => import('#controllers/drug_name_controller')
-const UserDrugController = () => import('#controllers/user_drug_controller')
+const DrugBrandController = () => import('#controllers/pharmacy/drug_brand_controller')
+const DrugNameController = () => import('#controllers/pharmacy/drug_name_controller')
+const UserDrugController = () => import('#controllers/pharmacy/user_drug_controller')
 const AppController = () => import('#controllers/app_controller')
-const DrugContainerController = () => import('#controllers/drug_container_controller')
-const CustomRecordController = () => import('#controllers/custom_record_controller')
-const CustomRecordDataController = () => import('#controllers/custom_record_data_controller')
+const DrugContainerController = () => import('#controllers/pharmacy/drug_container_controller')
+const CustomRecordController = () => import('#controllers/custom-records/custom_record_controller')
+const CustomRecordDataController = () =>
+  import('#controllers/custom-records/custom_record_data_controller')
+const WaterConsumptionRecordController = () =>
+  import('#controllers/water-consumption/water_consumption_controller')
+
 router
   .group(() => {
     router
@@ -70,6 +74,17 @@ router
               CustomRecordDataController,
               'delete',
             ])
+            router.get('water-consumption-record', [WaterConsumptionRecordController, 'readAll'])
+            router.get('water-consumption-record/average', [
+              WaterConsumptionRecordController,
+              'averageInRange',
+            ])
+            router.post('water-consumption-record', [WaterConsumptionRecordController, 'create'])
+            router.delete('water-consumption-record/:id', [
+              WaterConsumptionRecordController,
+              'delete',
+            ])
+            router.put('water-consumption-record/:id', [WaterConsumptionRecordController, 'update'])
           })
           .use(middleware.auth())
       })

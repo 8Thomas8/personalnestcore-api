@@ -1,13 +1,13 @@
 import { HttpContext } from '@adonisjs/core/http'
-import DrugContainer from '#models/drug_container'
-import { createDrugContainerValidator } from '#validators/drug_container'
+import DrugBrand from '#models/drug_brand'
+import { createDrugBrandValidator } from '#validators/pharmacy/drug_brand'
 
 export default class DrugBrandController {
   public readAll = async ({ auth, response }: HttpContext) => {
     try {
       await auth.authenticate()
 
-      return response.ok(await DrugContainer.all())
+      return response.ok(await DrugBrand.all())
     } catch (error) {
       return response.badRequest({
         message: 'Request failed',
@@ -18,10 +18,10 @@ export default class DrugBrandController {
 
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
-      const { name } = await request.validateUsing(createDrugContainerValidator)
+      const { name } = await request.validateUsing(createDrugBrandValidator)
       await auth.authenticate()
 
-      return response.created(await DrugContainer.create({ name }))
+      return response.created(await DrugBrand.create({ name }))
     } catch (error) {
       return response.badRequest({
         message: 'Request failed',
@@ -33,12 +33,12 @@ export default class DrugBrandController {
   public delete = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
-      const container = await DrugContainer.findOrFail(request.param('id'))
+      const brand = await DrugBrand.findOrFail(request.param('id'))
 
-      await container.delete()
+      await brand.delete()
 
       return response.ok({
-        message: 'Drug container deleted successfully',
+        message: 'Drug brand deleted successfully',
       })
     } catch (error) {
       return response.badRequest({
