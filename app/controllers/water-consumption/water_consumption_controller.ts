@@ -148,8 +148,6 @@ export default class WaterConsumptionController {
 
       const total = result.$extras.maxIndex - result.$extras.minIndex
 
-      console.log('total', total)
-
       const months = Math.max(
         Math.floor(
           DateTime.fromISO(isoEndDate).diff(DateTime.fromISO(isoStartDate), 'months').months
@@ -161,7 +159,7 @@ export default class WaterConsumptionController {
       return response.ok({ average })
     } catch (error) {
       return response.badRequest({
-        message: 'Erreur lors du calcul de la moyenne',
+        message: 'Error while calculating the average',
         errors: error.messages,
       })
     }
