@@ -5,7 +5,7 @@ export const createWaterConsumptionRecordValidator = vine.compile(
   vine.object({
     index: vine.number(),
     date: vine.string().transform((value) => {
-      const date = DateTime.fromFormat(value, 'dd/MM/yyyy')
+      const date = DateTime.fromFormat(value, 'dd/MM/yyyy').toUTC()
       if (!date.isValid) {
         throw new Error('Invalid date format')
       }
@@ -19,7 +19,7 @@ export const updateWaterConsumptionRecordValidator = vine.compile(
   vine.object({
     index: vine.number(),
     date: vine.string().transform((value) => {
-      const date = DateTime.fromFormat(value, 'dd/MM/yyyy')
+      const date = DateTime.fromFormat(value, 'dd/MM/yyyy')?.toUTC()
       if (!date.isValid) {
         throw new Error('Invalid date format')
       }

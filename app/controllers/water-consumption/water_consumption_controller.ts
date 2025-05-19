@@ -15,14 +15,14 @@ export default class WaterConsumptionController {
 
       const query = WaterConsumptionRecord.query()
 
-      const defaultStartDate = DateTime.now().minus({ months: 1 })
+      const defaultStartDate = DateTime.now().minus({ year: 1 })
       const defaultEndDate = DateTime.now()
       const isoStartDate = startDate
-        ? DateTime.fromFormat(startDate, 'dd/MM/yyyy').startOf('day').toISO()
-        : defaultStartDate.startOf('day').toISO()
+        ? DateTime.fromFormat(startDate, 'dd/MM/yyyy').toUTC().startOf('day').toISO()
+        : defaultStartDate.toUTC().startOf('day').toISO()
       const isoEndDate = endDate
-        ? DateTime.fromFormat(endDate, 'dd/MM/yyyy').endOf('day').toISO()
-        : defaultEndDate.endOf('day').toISO()
+        ? DateTime.fromFormat(endDate, 'dd/MM/yyyy').toUTC().endOf('day').toISO()
+        : defaultEndDate.toUTC().endOf('day').toISO()
 
       if (!isoStartDate || !isoEndDate) {
         return response.badRequest({
@@ -30,7 +30,9 @@ export default class WaterConsumptionController {
         })
       }
 
-      query.whereBetween('date', [isoStartDate, isoEndDate])
+      query
+        .whereRaw('DATE(date) >= DATE(?)', [isoStartDate])
+        .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
 
       return response.ok(await query.paginate(request.input('page', 1), itemPerPage ?? 20))
     } catch (error) {
@@ -96,6 +98,61 @@ export default class WaterConsumptionController {
     } catch (error) {
       return response.badRequest({
         message: 'Water consumption record cannot be updated',
+        errors: error.messages,
+      })
+    }
+  }
+
+  public averageInRange = async ({ auth, request, response }: HttpContext) => {
+    try {
+      await auth.authenticate()
+
+      const { startDate, endDate } = request.qs()
+
+      const query = WaterConsumptionRecord.query()
+
+      const defaultStartDate = DateTime.now().startOf('year')
+      const defaultEndDate = DateTime.now()
+      const isoStartDate = startDate
+        ? DateTime.fromFormat(startDate, 'dd/MM/yyyy').toUTC().startOf('day').toISO()
+        : defaultStartDate.toUTC().startOf('day').toISO()
+      const isoEndDate = endDate
+        ? DateTime.fromFormat(endDate, 'dd/MM/yyyy').toUTC().endOf('day').toISO()
+        : defaultEndDate.toUTC().endOf('day').toISO()
+
+      if (!isoStartDate || !isoEndDate) {
+        return response.badRequest({
+          message: 'Invalid date format',
+        })
+      }
+
+      const records = await query
+        .whereRaw('DATE(date) >= DATE(?)', [isoStartDate])
+        .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
+
+      if (records.length === 0) {
+        return response.ok({ average: 0 })
+      }
+
+      const sorted = records.sort(
+        (a, b) =>
+          DateTime.fromISO(String(a.date)).toMillis() - DateTime.fromISO(String(b.date)).toMillis()
+      )
+
+      const total = sorted[sorted.length - 1].index - sorted[0].index
+
+      const months = Math.max(
+        Math.floor(
+          DateTime.fromISO(isoEndDate).diff(DateTime.fromISO(isoStartDate), 'months').months
+        ),
+        1
+      )
+      const average = Math.round(total / months)
+
+      return response.ok({ average })
+    } catch (error) {
+      return response.badRequest({
+        message: 'Erreur lors du calcul de la moyenne',
         errors: error.messages,
       })
     }

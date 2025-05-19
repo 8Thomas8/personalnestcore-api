@@ -75,6 +75,10 @@ router
               'delete',
             ])
             router.get('water-consumption-record', [WaterConsumptionRecordController, 'readAll'])
+            router.get('water-consumption-record/average', [
+              WaterConsumptionRecordController,
+              'averageInRange',
+            ])
             router.post('water-consumption-record', [WaterConsumptionRecordController, 'create'])
             router.delete('water-consumption-record/:id', [
               WaterConsumptionRecordController,
