@@ -35,12 +35,12 @@ export default class UserDrugController {
       }
 
       if (expiredOnly === 'true') {
-        query.where('expirationDateTime', '<', DateTime.now().toISO())
+        query.where('expirationDateTime', '<', DateTime.now().toUTC().toISO())
       }
 
       if (expireSoon === 'true') {
-        const soonDate = DateTime.now().plus({ days: 60 }).toISO()
-        query.whereBetween('expirationDateTime', [DateTime.now().toISO(), soonDate])
+        const soonDate = DateTime.now().plus({ days: 60 }).toUTC().toISO()
+        query.whereBetween('expirationDateTime', [DateTime.now().toUTC().toISO(), soonDate])
       }
 
       return response.ok(await query.paginate(request.input('page', 1), itemPerPage ?? 20))
@@ -80,7 +80,7 @@ export default class UserDrugController {
         .exec()
 
       const existingUserDrug = matchingUserDrugs?.some((userDrug) => {
-        return userDrug.expirationDateTime.toISO() === expirationDateTime.toISO()
+        return userDrug.expirationDateTime.toUTC().toISO() === expirationDateTime.toUTC().toISO()
       })
 
       if (existingUserDrug) {

@@ -27,10 +27,10 @@ export default class CustomRecordDataController {
       const defaultStartDate = DateTime.now().minus({ months: 1 })
       const defaultEndDate = DateTime.now()
       const isoStartDate = startDate
-        ? DateTime.fromFormat(startDate, 'dd/MM/yyyy').startOf('day').toISO()
+        ? DateTime.fromFormat(startDate, 'dd/MM/yyyy').toUTC().startOf('day').toISO()
         : defaultStartDate.startOf('day').toISO()
       const isoEndDate = endDate
-        ? DateTime.fromFormat(endDate, 'dd/MM/yyyy').endOf('day').toISO()
+        ? DateTime.fromFormat(endDate, 'dd/MM/yyyy').toUTC().endOf('day').toISO()
         : defaultEndDate.endOf('day').toISO()
 
       if (!isoStartDate || !isoEndDate) {
@@ -39,7 +39,9 @@ export default class CustomRecordDataController {
         })
       }
 
-      query.whereBetween('datetime', [isoStartDate, isoEndDate])
+      await query
+        .whereRaw('DATE(date) >= DATE(?)', [isoStartDate])
+        .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
 
       return response.ok(await query.paginate(request.input('page', 1), itemPerPage ?? 20))
     } catch (error) {
