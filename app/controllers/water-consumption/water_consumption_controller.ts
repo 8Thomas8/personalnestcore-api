@@ -6,6 +6,13 @@ import {
   updateWaterConsumptionRecordValidator,
 } from '#validators/water-consumption/water_consumption_record'
 
+interface AggregationResult {
+  $extras: {
+    minIndex: number | null
+    maxIndex: number | null
+  }
+}
+
 export default class WaterConsumptionController {
   public readAll = async ({ auth, request, response }: HttpContext) => {
     try {
@@ -35,7 +42,7 @@ export default class WaterConsumptionController {
         .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
 
       return response.ok(
-        await query.paginate(request.input('page', 1), parseInt(itemPerPage, 10) || 20)
+        await query.paginate(request.input('page', 1), Number.parseInt(itemPerPage, 10) || 20)
       )
     } catch (error) {
       return response.badRequest({
@@ -128,17 +135,20 @@ export default class WaterConsumptionController {
         })
       }
 
-      const records = await query
+      const result = (await query
         .whereRaw('DATE(date) >= DATE(?)', [isoStartDate])
         .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
+        .min('index as minIndex')
+        .max('index as maxIndex')
+        .first()) as unknown as AggregationResult
 
-      if (records.length === 0) {
+      if (!result || result.$extras.minIndex === null || result.$extras.maxIndex === null) {
         return response.ok({ average: 0 })
       }
 
-      const sorted = records.sort((a, b) => a.date.toMillis() - b.date.toMillis())
+      const total = result.$extras.maxIndex - result.$extras.minIndex
 
-      const total = sorted[sorted.length - 1].index - sorted[0].index
+      console.log('total', total)
 
       const months = Math.max(
         Math.floor(
