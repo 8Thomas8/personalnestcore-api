@@ -34,7 +34,9 @@ export default class WaterConsumptionController {
         .whereRaw('DATE(date) >= DATE(?)', [isoStartDate])
         .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
 
-      return response.ok(await query.paginate(request.input('page', 1), itemPerPage ?? 20))
+      return response.ok(
+        await query.paginate(request.input('page', 1), parseInt(itemPerPage, 10) || 20)
+      )
     } catch (error) {
       return response.badRequest({
         message: 'Request failed',
@@ -134,10 +136,7 @@ export default class WaterConsumptionController {
         return response.ok({ average: 0 })
       }
 
-      const sorted = records.sort(
-        (a, b) =>
-          DateTime.fromISO(String(a.date)).toMillis() - DateTime.fromISO(String(b.date)).toMillis()
-      )
+      const sorted = records.sort((a, b) => a.date.toMillis() - b.date.toMillis())
 
       const total = sorted[sorted.length - 1].index - sorted[0].index
 
