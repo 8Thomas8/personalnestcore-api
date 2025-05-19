@@ -21,6 +21,6 @@ export const updateWaterConsumptionRecordValidator = vine.compile(
   vine.object({
     index: vine.number(),
     date: vine.string().transform(parseDate),
-    comment: vine.string().trim().maxLength(500),
+    comment: vine.string().trim().maxLength(500).optional().nullable(),
   })
 )
