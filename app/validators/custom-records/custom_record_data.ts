@@ -2,7 +2,7 @@ import vine from '@vinejs/vine'
 import { DateTime } from 'luxon'
 
 const transformDate = (value: string) => {
-  const date = DateTime.fromISO(value)
+  const date = DateTime.fromISO(value).toUTC()
   if (!date.isValid) {
     throw new Error('Format de date invalide')
   }
