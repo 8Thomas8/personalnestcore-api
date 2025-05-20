@@ -121,13 +121,24 @@ export default class WaterConsumptionController {
       const query = WaterConsumptionRecord.query()
 
       const defaultStartDate = DateTime.now().startOf('year')
-      const defaultEndDate = DateTime.now()
       const isoStartDate = startDate
         ? DateTime.fromFormat(startDate, 'dd/MM/yyyy').toUTC().startOf('day').toISO()
         : defaultStartDate.toUTC().startOf('day').toISO()
-      const isoEndDate = endDate
-        ? DateTime.fromFormat(endDate, 'dd/MM/yyyy').toUTC().endOf('day').toISO()
-        : defaultEndDate.toUTC().endOf('day').toISO()
+
+      let isoEndDate: string | null
+      if (endDate) {
+        isoEndDate = DateTime.fromFormat(endDate, 'dd/MM/yyyy').toUTC().endOf('day').toISO()
+      } else {
+        const currentYear = DateTime.now().year
+        const lastRecord = await WaterConsumptionRecord.query()
+          .whereRaw("strftime('%Y', date) = ?", [currentYear.toString()])
+          .orderBy('date', 'desc')
+          .first()
+
+        isoEndDate = lastRecord
+          ? lastRecord.date.toUTC().endOf('day').toISO()
+          : DateTime.now().toUTC().endOf('day').toISO()
+      }
 
       if (!isoStartDate || !isoEndDate) {
         return response.badRequest({
@@ -148,12 +159,11 @@ export default class WaterConsumptionController {
 
       const total = result.$extras.maxIndex - result.$extras.minIndex
 
-      const months = Math.max(
-        Math.floor(
-          DateTime.fromISO(isoEndDate).diff(DateTime.fromISO(isoStartDate), 'months').months
-        ),
-        1
-      )
+      const months = DateTime.fromISO(isoEndDate).diff(
+        DateTime.fromISO(isoStartDate),
+        'months'
+      ).months
+
       const average = Math.round(total / months)
 
       return response.ok({ average })
