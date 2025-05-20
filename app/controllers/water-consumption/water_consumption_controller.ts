@@ -167,8 +167,6 @@ export default class WaterConsumptionController {
 
       const average = Math.round(total / months)
 
-      console.log('Average:', total, months)
-
       return response.ok({ average })
     } catch (error) {
       return response.badRequest({
