@@ -158,7 +158,6 @@ export default class WaterConsumptionController {
       }
 
       const total = result.$extras.maxIndex - result.$extras.minIndex
-      console.log('Total:', result.$extras.maxIndex, result.$extras.minIndex)
 
       const months = DateTime.fromISO(isoEndDate).diff(
         DateTime.fromISO(isoStartDate),
