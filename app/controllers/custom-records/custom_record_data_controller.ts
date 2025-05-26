@@ -40,8 +40,8 @@ export default class CustomRecordDataController {
       }
 
       await query
-        .whereRaw('DATE(date) >= DATE(?)', [isoStartDate])
-        .whereRaw('DATE(date) <= DATE(?)', [isoEndDate])
+        .whereRaw('DATE(datetime) >= DATE(?)', [isoStartDate])
+        .whereRaw('DATE(datetime) <= DATE(?)', [isoEndDate])
 
       return response.ok(await query.paginate(request.input('page', 1), itemPerPage ?? 20))
     } catch (error) {
