@@ -3,7 +3,7 @@ import { DrugForm, DrugUnit } from '../../../types/constants.js'
 import { DateTime } from 'luxon'
 
 const transformDate = (value: string) => {
-  const date = DateTime.fromFormat(value, 'dd/MM/yyyy')
+  const date = DateTime.fromFormat(value, 'dd/MM/yyyy').toUTC()
   if (!date.isValid) {
     throw new Error('Invalid date format. Expected format: dd/MM/yyyy')
   }
