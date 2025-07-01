@@ -8,8 +8,8 @@ export const createKitValidator = vine.compile(
       .minLength(4)
       .maxLength(25)
       .unique(async (db, value) => {
-        const brand = await db.from('kits').where('name', value).first()
-        return !brand
+        const kit = await db.from('kits').where('name', value).first()
+        return !kit
       }),
     list: vine.array(
       vine.object({
@@ -29,8 +29,8 @@ export const updateKitValidator = (kitId: number | string) =>
         .minLength(4)
         .maxLength(25)
         .unique(async (db, value) => {
-          const brand = await db.from('kits').where('name', value).whereNot('id', kitId).first()
-          return !brand
+          const kit = await db.from('kits').where('name', value).whereNot('id', kitId).first()
+          return !kit
         }),
       list: vine.array(
         vine.object({

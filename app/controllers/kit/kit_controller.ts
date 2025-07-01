@@ -9,7 +9,6 @@ export default class KitController {
 
       return response.ok(await Kit.all())
     } catch (error) {
-      console.log(error)
       return response.badRequest({
         message: 'Request failed',
         errors: error.messages,
