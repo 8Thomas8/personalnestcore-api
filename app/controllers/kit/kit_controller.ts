@@ -49,9 +49,9 @@ export default class KitController {
       await auth.authenticate()
       const kit = await Kit.findOrFail(request.param('id'))
       const { name, list } = await request.validateUsing(updateKitValidator(request.param('id')))
-      list.sort((a, b) => a.name.localeCompare(b.name))
-
-      kit.merge({ name, list })
+      if (list.length) {
+        kit.merge({ name, list })
+      }
 
       await kit.save()
 
