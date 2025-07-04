@@ -50,8 +50,10 @@ export default class KitController {
       const kit = await Kit.findOrFail(request.param('id'))
       const { name, list } = await request.validateUsing(updateKitValidator(request.param('id')))
       if (list.length) {
-        kit.merge({ name, list })
+        list.sort((a, b) => a.name.localeCompare(b.name))
       }
+
+      kit.merge({ name, list })
 
       await kit.save()
 
