@@ -11,12 +11,6 @@ export const createKitValidator = vine.compile(
         const kit = await db.from('kits').where('name', value).first()
         return !kit
       }),
-    list: vine.array(
-      vine.object({
-        name: vine.string().trim().maxLength(100),
-        checked: vine.boolean(),
-      })
-    ),
   })
 )
 
@@ -34,7 +28,7 @@ export const updateKitValidator = (kitId: number | string) =>
         }),
       list: vine.array(
         vine.object({
-          name: vine.string().trim().maxLength(100),
+          name: vine.string().trim().minLength(4).maxLength(100),
           checked: vine.boolean(),
         })
       ),

@@ -33,9 +33,9 @@ export default class KitController {
   public create = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
-      const { name, list } = await request.validateUsing(createKitValidator)
+      const { name } = await request.validateUsing(createKitValidator)
 
-      return response.created(await Kit.create({ name, list }))
+      return response.created(await Kit.create({ name, list: [] }))
     } catch (error) {
       return response.badRequest({
         message: 'Kit cannot be created',
@@ -49,6 +49,7 @@ export default class KitController {
       await auth.authenticate()
       const kit = await Kit.findOrFail(request.param('id'))
       const { name, list } = await request.validateUsing(updateKitValidator(request.param('id')))
+      list.sort((a, b) => a.name.localeCompare(b.name))
 
       kit.merge({ name, list })
 
