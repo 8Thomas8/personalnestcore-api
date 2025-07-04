@@ -22,6 +22,7 @@ const CustomRecordDataController = () =>
   import('#controllers/custom-records/custom_record_data_controller')
 const WaterConsumptionRecordController = () =>
   import('#controllers/water-consumption/water_consumption_controller')
+const KitController = () => import('#controllers/kit/kit_controller')
 
 router
   .group(() => {
@@ -85,6 +86,11 @@ router
               'delete',
             ])
             router.put('water-consumption-record/:id', [WaterConsumptionRecordController, 'update'])
+            router.post('kit', [KitController, 'create'])
+            router.get('kit', [KitController, 'readAll'])
+            router.get('kit/:id', [KitController, 'readOne'])
+            router.put('kit/:id', [KitController, 'update'])
+            router.delete('kit/:id', [KitController, 'delete'])
           })
           .use(middleware.auth())
       })
