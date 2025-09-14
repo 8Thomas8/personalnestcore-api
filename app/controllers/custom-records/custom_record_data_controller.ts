@@ -52,7 +52,7 @@ export default class CustomRecordDataController {
     }
   }
 
-  create = async ({ auth, request, response }: HttpContext) => {
+  public create = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
 
@@ -76,7 +76,7 @@ export default class CustomRecordDataController {
     }
   }
 
-  update = async ({ auth, request, response }: HttpContext) => {
+  public update = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
       const record = await CustomRecordData.findOrFail(request.param('id'))
@@ -97,7 +97,7 @@ export default class CustomRecordDataController {
     }
   }
 
-  delete = async ({ auth, request, response }: HttpContext) => {
+  public delete = async ({ auth, request, response }: HttpContext) => {
     try {
       await auth.authenticate()
       const record = await CustomRecordData.findOrFail(request.param('id'))
